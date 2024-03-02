@@ -2,8 +2,6 @@ class Block:
     def __init__(self, course, done): 
         self.course = course
         self.done = done
-        
-
 
     def verify(self):
         if self.done: 
@@ -40,6 +38,12 @@ math1180 = Block('MATH 1180', False)
 
 math_req = Partition([Container([stat]), Container([cs, Partition([Container([math280]), Container([math1180])])])])
 
-
 print(math_req.verify())
 
+bio1810 = Block('BIO 1810', True)
+bio1820 = Block('BIO 1820', True)
+bio1000 = Block('BIO 1000', False)
+
+bio_req = Partition([Container([bio1000]), Container([bio1810, bio1820])])
+
+print(bio_req.verify())
