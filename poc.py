@@ -2,23 +2,24 @@ class Block:
     def __init__(self, course, done): 
         self.course = course
         self.done = done
-
-    def __init__(self,course): 
-        self.course = course
-        self.done = False
         
-    def finish(self):
-        self.done = True
+
+
+    def verify(self):
+        if self.done: 
+            return True
     
 class Partition: 
     def __init__(self, containers):
-        if type(containers) != 'list':
-            raise TypeError('Containers must be a list')
         self.containers = containers
         self.size = len(containers)
-         
-
-            
+    
+    def verify(self): 
+        for container in self.containers: 
+            if container.verify():
+                return True
+        return False
+    
 
 class Container: 
     def __init__(self, children):
@@ -27,17 +28,18 @@ class Container:
 
     def verify(self): 
         for child in self.children: 
-            if type(child) != "Block":
-                print("The child is a block ")
-            if type(child) != "Partition": 
-                pass
+            if not child.verify(): 
+                return False
+        return True
 
 
+stat = Block('STAT 1000', False)
+cs = Block('CS 1503', True)
+math280 = Block('MATH 0280', True)
+math1180 = Block('MATH 1180', False)
 
-partition1 = Partition([Container(Block('0280')), Container(Block('1180'))])
+math_req = Partition([Container([stat]), Container([cs, Partition([Container([math280]), Container([math1180])])])])
 
 
-
-
-
+print(math_req.verify())
 
